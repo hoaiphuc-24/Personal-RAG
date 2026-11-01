@@ -1,0 +1,22 @@
+services:
+  rag:
+    build: .
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      RAG_PROVIDER: ${RAG_PROVIDER:-demo}
+      PROJECT_NAME: ${PROJECT_NAME:-Personal AgenticRAG}
+      OWNER_NAME: ${OWNER_NAME:-You}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_CHAT_MODEL: ${OPENAI_CHAT_MODEL:-gpt-4o-mini}
+      OPENAI_EMBED_MODEL: ${OPENAI_EMBED_MODEL:-text-embedding-3-small}
+      DATA_DIR: /app/data
+      CHUNK_SIZE: ${CHUNK_SIZE:-900}
+      CHUNK_OVERLAP: ${CHUNK_OVERLAP:-150}
+      MAX_AGENT_STEPS: ${MAX_AGENT_STEPS:-5}
+      MAX_UPLOAD_MB: ${MAX_UPLOAD_MB:-10}
+    volumes:
+      - rag-data:/app/data
+    restart: unless-stopped
+volumes:
+  rag-data:

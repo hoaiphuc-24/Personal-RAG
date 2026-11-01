@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#183e33">
+  <title>Personal AgenticRAG · Knowledge Workspace</title>
+  <link rel="stylesheet" href="/static/app.css">
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Skip to main content</a>
+<div class="app-shell">
+  <aside class="sidebar" aria-label="Navigation">
+    <a class="brand" href="/" aria-label="Personal AgenticRAG — Home"><span class="brand-mark">p<span>·</span></span><span>Personal<span class="brand-sub">AGENTIC RAG</span></span></a>
+    <div class="workspace-label"><span class="status-dot"></span> PERSONAL WORKSPACE</div>
+    <button class="new-chat" id="new-chat"><span aria-hidden="true">＋</span> New chat <kbd>N</kbd></button>
+    <nav class="nav-list" aria-label="Workspace">
+      <button class="nav-item active" data-view="chat" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-8 8H5l-3 2v-7a8 8 0 1 1 18-3Z"/><path d="M7 9h8M7 13h5"/></svg>Document assistant</button>
+      <button class="nav-item" data-view="library"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h5v16H4zM12 4h4v16h-4zM18 5l3 14"/></svg>Library<span class="nav-count" id="document-count">0</span></button>
+      <button class="nav-item" data-view="notes"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v18H5zM9 7h6M9 11h6M9 15h4"/></svg>Saved notes</button>
+    </nav>
+    <div class="sessions-heading">RECENT CHATS</div>
+    <div id="session-list" class="session-list"><p class="sidebar-empty">Your ideas start here.</p></div>
+    <div class="sidebar-bottom"><div class="privacy-label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 4 6v6c0 5 8 9 8 9s8-4 8-9V6zM9 12l2 2 4-4"/></svg>Your data stays on this device</div><div class="profile"><span class="avatar">Y</span><span><strong id="owner-name">You</strong><small>Personal workspace</small></span><span class="profile-dot" aria-label="Active"></span></div></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar"><div class="breadcrumb">Knowledge workspace <span>/</span> <strong id="view-title">Document assistant</strong></div><div class="topbar-right"><button class="mobile-context-button" id="show-context" aria-expanded="false" aria-controls="context-panel">Sources ↗</button><span class="mode-badge" id="mode-badge">Connecting…</span><button class="icon-button help-button" id="mode-help" aria-label="About the current mode">?</button></div></header>
+    <div id="notice" class="notice" role="status" hidden></div>
+    <main id="main-content" tabindex="-1">
+      <section class="chat-view view" id="chat-view" aria-label="Document assistant">
+        <div class="conversation-column">
+          <div class="conversation-scroll" id="conversation-scroll">
+            <div class="welcome" id="welcome">
+              <div class="eyebrow"><span></span> YOUR KNOWLEDGE, BETTER CONNECTED.</div>
+              <h1>Read less.<br>Understand <em>more.</em></h1>
+              <p class="welcome-copy">Turn work documents into clear answers.<br>Ask, compare, and rediscover what matters — with sources.</p>
+              <div class="starter-grid">
+                <button class="starter-card" data-prompt="Summarize the key points across the documents and cite the source for each point."><span class="starter-symbol" aria-hidden="true">≋</span><strong>Get the overview</strong><span>Summarize key ideas from your documents</span><span class="card-arrow" aria-hidden="true">↗</span></button>
+                <button class="starter-card" data-prompt="Find the onboarding steps and the tasks to complete during the first week."><span class="starter-symbol" aria-hidden="true">⌘</span><strong>Find an answer</strong><span>Look up processes and guides</span><span class="card-arrow" aria-hidden="true">↗</span></button>
+                <button class="starter-card" data-prompt="Compare the project documents, identify agreements and missing information, and cite the sources."><span class="starter-symbol" aria-hidden="true">⇄</span><strong>Connect the dots</strong><span>Compare information across sources</span><span class="card-arrow" aria-hidden="true">↗</span></button>
+              </div>
+              <div class="onboarding" id="onboarding"><div class="onboarding-icon" aria-hidden="true">↥</div><div><strong>Start with your first document</strong><p>Upload a PDF, Markdown, or TXT file. Or try the sample work documents.</p></div><div class="onboarding-actions"><button class="small-button" id="welcome-upload">Upload document</button><button class="text-button" id="seed-demo">Try sample data <span aria-hidden="true">↗</span></button></div></div>
+            </div>
+            <div class="messages" id="messages" aria-live="polite" aria-relevant="additions"></div>
+          </div>
+          <div class="composer-area"><form id="chat-form" class="composer"><label class="sr-only" for="message-input">Ask about your documents</label><textarea id="message-input" rows="2" maxlength="4000" placeholder="What would you like to learn from your documents?" required></textarea><div class="composer-toolbar"><button type="button" class="attach-button" id="attach-document" aria-label="Upload a document"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 13 7-7a3 3 0 0 1 4 4L9 20a5 5 0 0 1-7-7L13 2M5 16 16 5"/></svg><span>Add document</span></button><div class="send-group"><span class="keyboard-hint">Enter to send</span><button type="submit" class="send-button" id="send-message" aria-label="Send question"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 7-7 7 7M12 5v15"/></svg></button></div></div></form><p class="composer-footnote"><span class="tiny-dot"></span> Answers include sources so you can verify them. Shift + Enter for a new line.</p></div>
+        </div>
+        <aside class="context-panel" id="context-panel" aria-label="Sources and activity"><div class="context-heading"><span class="context-icon" aria-hidden="true">◈</span><strong>Reference panel</strong><span class="live-dot"></span><button id="close-context" class="icon-button mobile-context-button" aria-label="Close reference panel">×</button></div><div class="context-tabs" role="tablist" aria-label="Answer details"><button id="sources-tab" class="context-tab active" role="tab" aria-selected="true" aria-controls="sources-panel">Sources <span id="source-count">0</span></button><button id="activity-tab" class="context-tab" role="tab" aria-selected="false" aria-controls="activity-panel">Activity</button></div><div id="sources-panel" role="tabpanel" aria-labelledby="sources-tab"><div class="context-empty"><div class="source-art" aria-hidden="true"><span class="art-page back"></span><span class="art-page front"><i></i><i></i><i></i><b>↗</b></span></div><h2>Every answer,<br>grounded in a source.</h2><p>Retrieved document sources will appear here after you ask a question.</p></div></div><div id="activity-panel" role="tabpanel" aria-labelledby="activity-tab" hidden><p class="panel-note">The tools used will appear here. This is a record of operations, not the model's internal reasoning.</p><div id="trace-list"></div></div><div class="context-bottom"><span aria-hidden="true">✳</span><p><strong>Ask a specific question for a precise answer.</strong><br>Try including a project name or topic in your question.</p></div></aside>
+      </section>
+      <section class="content-view view" id="library-view" aria-label="Document library" hidden><div class="page-heading"><div><div class="eyebrow">KNOWLEDGE SOURCES</div><h1>Your library</h1><p>Bring your documents together so the assistant can search and cite them.</p></div><button class="primary-button" id="library-upload">＋ Upload document</button></div><div class="library-info"><span aria-hidden="true">↥</span> PDFs with text, Markdown, and TXT · Scanned PDFs require OCR before upload.</div><div id="document-list" class="document-list"></div></section>
+      <section class="content-view view" id="notes-view" aria-label="Notes" hidden><div class="page-heading"><div><div class="eyebrow">WORTH KEEPING</div><h1>Saved notes</h1><p>Save useful answers and edit them into notes of your own.</p></div><button class="primary-button" id="new-note">＋ Write a note</button></div><div id="note-list" class="note-list"></div></section>
+    </main>
+  </div>
+</div>
+<input type="file" id="upload-input" accept=".pdf,.txt,.md,.markdown" class="sr-only" tabindex="-1" aria-label="Choose a document to upload">
+<dialog id="preview-dialog" class="preview-dialog" aria-labelledby="preview-title"><div class="dialog-heading"><div><span class="eyebrow" id="preview-label">DOCUMENT SOURCE</span><h2 id="preview-title"></h2></div><button class="icon-button close-dialog" aria-label="Close preview">×</button></div><div id="preview-content" class="preview-content"></div></dialog>
+<dialog id="note-dialog" aria-label="Save a personal note"><form id="note-form"><div class="dialog-heading"><div><span class="eyebrow">PERSONAL NOTE</span><h2>Save what matters</h2></div><button type="button" class="icon-button close-dialog" aria-label="Close note dialog">×</button></div><label for="note-title">Title</label><input id="note-title" maxlength="200" required placeholder="Name your note"><label for="note-content">Content</label><textarea id="note-content" rows="12" required></textarea><p class="dialog-help">Your note is saved only when you click the button below.</p><div class="dialog-actions"><button type="button" class="small-button close-dialog">Cancel</button><button class="primary-button" type="submit">Save note</button></div></form></dialog>
+<dialog id="mode-dialog" aria-label="Operating mode"><div class="dialog-heading"><h2>Operating mode</h2><button class="icon-button close-dialog" aria-label="Close information">×</button></div><div id="mode-explanation"></div></dialog>
+</body>
+</html>
